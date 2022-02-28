@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Running from shell file"
+echo "Running from shell file "
