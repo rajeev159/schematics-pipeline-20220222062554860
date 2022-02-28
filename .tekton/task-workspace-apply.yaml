@@ -68,7 +68,7 @@ spec:
 
           # Add custom script for ..........
           echo "We can add custom script here .........................2"
-          ./scripts/test.sh
+          ./../scripts/test.sh
           # poll until status is no longer INPROGRESS, or if there is an error
           while :
           do
