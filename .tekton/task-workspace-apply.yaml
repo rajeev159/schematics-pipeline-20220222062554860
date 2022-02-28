@@ -42,7 +42,7 @@ spec:
       args:
         - |
           #!/bin/bash
-
+  
           if [ "$ENABLE_PLAN_APPLY" != "true" ]; then
             echo "Automatic plan and apply have been disabled. Re-enable by setting the enable-automatic-plan-apply environment property to true."
             exit 0
@@ -86,5 +86,7 @@ spec:
             fi
             # sleep for 5 seconds, while waiting for completion
             sleep 5
+
+          echo 'Pland is ending here............................'
           done
           ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
