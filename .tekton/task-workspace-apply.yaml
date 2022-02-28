@@ -65,6 +65,9 @@ spec:
           ACTIVITY=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
           ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
           echo "Activity ID   $ACTIVITY_ID"
+
+          # Add custom script for ..........
+          echo "We can add custom script here .........................2"
           # poll until status is no longer INPROGRESS, or if there is an error
           while :
           do
