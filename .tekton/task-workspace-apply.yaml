@@ -42,7 +42,7 @@ spec:
       args:
         - |
           #!/bin/bash
-  
+          echo 'Running terraform command'
           if [ "$ENABLE_PLAN_APPLY" != "true" ]; then
             echo "Automatic plan and apply have been disabled. Re-enable by setting the enable-automatic-plan-apply environment property to true."
             exit 0
