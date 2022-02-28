@@ -53,6 +53,10 @@ spec:
             exit 0
           fi
           
+          # Add custom script for ..........
+          echo "We can add custom script here .........................2"
+          ../scripts/test.sh
+
           echo "Workspace $WORKSPACE_ID"
 
           REGION="--no-region"
