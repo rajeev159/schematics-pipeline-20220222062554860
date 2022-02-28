@@ -59,7 +59,7 @@ spec:
 
           # force login (required by schematics cli)
           ibmcloud login --apikey $API_KEY -a "$IBM_CLOUD_API" $REGION
-
+          echo "Running terraform command"
           # run terraform apply
           echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
           ACTIVITY=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
