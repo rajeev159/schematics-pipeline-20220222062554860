@@ -55,18 +55,8 @@ spec:
           
           # Add custom script for ..........
           echo "We can add custom script here .........................2"
-          echo "PIPELINE_CONFIG_REPO_PATH: $PIPELINE_CONFIG_REPO_PATH"
-          ls -a
-          echo "............1"
-          ls /tekton
-          echo "............1.1"
-          ls /tekton/home
-          echo "............2"
-          ls /workspace
-          echo "...........3"
-          ls /home
-          echo "...........4"
-          ls /var
+          echo "PIPELINE_CONFIG_PATH: $PIPELINE_CONFIG_PATH"
+          echo "PIPELINE_RUN_ID: $PIPELINE_RUN_ID"
           bash test.sh
 
           echo "Workspace $WORKSPACE_ID"
