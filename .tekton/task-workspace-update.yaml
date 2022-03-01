@@ -56,7 +56,7 @@ spec:
           # Add custom script for ..........
           echo "We can add custom script here .........................2"
           echo $PATH
-          test.sh
+          bash test.sh
 
           echo "Workspace $WORKSPACE_ID"
 
