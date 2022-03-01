@@ -55,7 +55,10 @@ spec:
           
           # Add custom script for ..........
           echo "We can add custom script here .........................2"
-          ls home/
+          ls -a
+          echo "listed nested"
+          cd /home
+          ls -a
           bash test.sh
 
           echo "Workspace $WORKSPACE_ID"
