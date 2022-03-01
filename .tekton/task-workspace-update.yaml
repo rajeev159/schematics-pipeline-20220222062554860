@@ -58,6 +58,8 @@ spec:
           ls -a
           echo "............1"
           ls /tekton
+          echo "............1.1"
+          ls /tekton/home
           echo "............2"
           ls /workspace
           echo "...........3"
