@@ -54,9 +54,6 @@ spec:
           fi
           
           # Add custom script for ..........
-          echo "We can add custom script here .........................2"
-          echo "PIPELINE_CONFIG_PATH: $PIPELINE_CONFIG_PATH"
-          echo "PIPELINE_RUN_ID: $PIPELINE_RUN_ID"
           bash test.sh
 
           echo "Workspace $WORKSPACE_ID"
