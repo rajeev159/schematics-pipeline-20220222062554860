@@ -13,11 +13,13 @@ spec:
     - name: artifacts
       mountPath: /artifacts
   steps:
-    - name: check-workspace-health
+    - name: create-workspace
       image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.2
       env:
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
       command: ["/bin/bash", "-c"]
       args:
-        - echo "Close to create workspace....................."
+        - echo "Creating schematic workspace..................."
+         # force login (required by schematics cli)
+          ibmcloud login --apikey $(params.ibmcloud-api) -a "$(params.apikey)" -r $(params.acc-region)
