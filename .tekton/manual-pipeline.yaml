@@ -17,82 +17,14 @@ spec:
   workspaces:
     - name: artifacts
   tasks:
-    - name: update-workspace
+    - name: create
       taskRef:
-        name: update-workspace-task
+        name: create-task
       workspaces:
         - name: artifacts
           workspace: artifacts
       params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
         - name: ibmcloud-api
           value: $(params.ibmcloud-api)
         - name: apikey
           value: $(params.apikey)
-        - name: enable-automatic-plan-apply
-          value: $(params.enable-automatic-plan-apply)
-    - name: plan
-      runAfter: [update-workspace]
-      taskRef:
-        name: plan-task
-      workspaces:
-        - name: artifacts
-          workspace: artifacts
-      params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
-        - name: ibmcloud-api
-          value: $(params.ibmcloud-api)
-        - name: apikey
-          value: $(params.apikey)
-        - name: enable-automatic-plan-apply
-          value: $(params.enable-automatic-plan-apply)
-    - name: apply
-      runAfter: [plan]
-      taskRef:
-        name: apply-task
-      workspaces:
-        - name: artifacts
-          workspace: artifacts
-      params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
-        - name: ibmcloud-api
-          value: $(params.ibmcloud-api)
-        - name: apikey
-          value: $(params.apikey)
-        - name: enable-automatic-plan-apply
-          value: $(params.enable-automatic-plan-apply)
-    - name: test
-      runAfter: [apply]
-      workspaces:
-        - name: artifacts
-          workspace: artifacts
-      taskRef:
-        name: test-task
-      params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
-        - name: ibmcloud-api
-          value: $(params.ibmcloud-api)
-        - name: apikey
-          value: $(params.apikey)
-        - name: enable-automatic-plan-apply
-          value: $(params.enable-automatic-plan-apply)
-    - name: custom
-      runAfter: [test]
-      workspaces:
-        - name: artifacts
-          workspace: artifacts
-      taskRef:
-        name: custom-task
-      params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
-        - name: ibmcloud-api
-          value: $(params.ibmcloud-api)
-        - name: apikey
-          value: $(params.apikey)
-        - name: enable-automatic-plan-apply
-          value: $(params.enable-automatic-plan-apply)
