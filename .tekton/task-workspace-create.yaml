@@ -22,3 +22,6 @@ spec:
       args:
         - |
           echo "Creating schematic workspace..................."
+          
+          # force login (required by schematics cli)
+          ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
