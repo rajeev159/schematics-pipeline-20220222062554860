@@ -52,9 +52,6 @@ spec:
             echo "Automatic plan and apply have been disabled. Re-enable by setting the enable-automatic-plan-apply environment property to true."
             exit 0
           fi
-          
-          # Add custom script for ..........
-          bash test.sh
 
           echo "Workspace $WORKSPACE_ID"
 
