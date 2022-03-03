@@ -9,6 +9,8 @@ spec:
       default: https://cloud.ibm.com
     - name: apikey
       description: the ibmcloud api key
+    - name: acc-region
+      description: Account region
   workspaces:
     - name: artifacts
       mountPath: /artifacts
@@ -22,6 +24,6 @@ spec:
       args:
         - |
           echo "Creating schematic workspace..................."
-          
+
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
