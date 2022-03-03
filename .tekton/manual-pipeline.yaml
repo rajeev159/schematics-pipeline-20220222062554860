@@ -30,3 +30,5 @@ spec:
           value: $(params.ibmcloud-api)
         - name: apikey
           value: $(params.apikey)
+        - name: acc-region
+          value: $(params.acc-region)
