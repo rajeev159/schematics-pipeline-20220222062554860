@@ -13,6 +13,8 @@ spec:
       description: the repo integration name
     - name: apikey
       description: the ibmcloud api key
+    - name: acc-region
+      description: account region
     - name: commit-id
       description: commit id
     - name: commit-timestamp
@@ -96,5 +98,7 @@ spec:
             value: $(params.WORKSPACE_ID)
           - name: apikey
             value: $(params.apikey)
+          - name: acc-region
+            value: $(params.acc-region)
           - name: enable-automatic-plan-apply
             value: $(params.enable-automatic-plan-apply)
