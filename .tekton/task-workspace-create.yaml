@@ -20,4 +20,5 @@ spec:
           value: $(params.ibmcloud-api)
       command: ["/bin/bash", "-c"]
       args:
-        - echo "Creating schematic workspace..................."
+        - |
+          echo "Creating schematic workspace..................."
