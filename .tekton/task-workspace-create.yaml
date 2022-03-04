@@ -28,5 +28,15 @@ spec:
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
 
-          ibmcloud schematics version [--output OUTPUT] [--json JSON_FILE]
+          # Output in json format
+          #ibmcloud schematics version --output json
+
+          # To find the ID of your workspace
+          # ibmcloud schematics workspace list
+
+          # Get details of a workspace
+          # ibmcloud schematics workspace action --id <workspace-id>
+
+          ibmcloud schematics action create --name newspace --template https://github.com/rajeev159/terraform-provider-ibm/tree/master/examples/ibm-resource-instance
+
 
