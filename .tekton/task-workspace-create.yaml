@@ -27,3 +27,6 @@ spec:
 
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
+
+          ibmcloud schematics version [--output OUTPUT] [--json JSON_FILE]
+
