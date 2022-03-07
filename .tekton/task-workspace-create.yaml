@@ -23,6 +23,7 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |
+          set -X
           echo "Login to ibm cloud..................."
 
           # force login (required by schematics cli)
