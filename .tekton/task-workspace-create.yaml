@@ -36,7 +36,9 @@ spec:
 
           # Get details of a workspace
           # ibmcloud schematics workspace action --id <workspace-id>
-
-          ibmcloud schematics action create --name newspace --template https://github.com/rajeev159/terraform-provider-ibm/tree/master/examples/ibm-resource-instance
+          # https://github.com/rajeev159/terraform-provider-ibm/blob/master/examples/workspace.json
+          
+          curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
+          ibmcloud schematics workspace new --file workspace.json
 
 
