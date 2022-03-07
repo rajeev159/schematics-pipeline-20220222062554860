@@ -25,6 +25,7 @@ spec:
         - |
           set -x
           echo "Login to ibm cloud..................."
+          ERR_NUM=0
 
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
@@ -41,10 +42,19 @@ spec:
           
           echo "Creating workspace....................."
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
-          WORKSPACE=$(ibmcloud schematics workspace new --file workspace.json --json) 
+          ERR_NUM=ERR_NUM+$?
+          WORKSPACE=$(ibmcloud schematics workspace new --file workspace1.json --json) 
+          ERR_NUM=ERR_NUM+$?
           WORKSPACE_ID=$(echo $WORKSPACE | jq ".id" | sed 's/"//g')
           echo "WORKSPACE ID:  $WORKSPACE_ID"
+          if [ $ERR_NUM -ne 0 ]; then
+            echo "Error in creating workspace........................"
+            exit $ERR_NUM
+          else
+            echo "Workspace create with id: $WORKSPACE_ID"
+          fi
           sleep 50
+
           echo "Creating Plan....................."
           # run terraform plan
           echo "ibmcloud terraform plan --id $WORKSPACE_ID"
