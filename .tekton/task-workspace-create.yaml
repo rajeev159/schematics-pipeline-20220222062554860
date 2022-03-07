@@ -39,6 +39,6 @@ spec:
           # https://github.com/rajeev159/terraform-provider-ibm/blob/master/examples/workspace.json
           
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
-          ibmcloud schematics workspace new --file workspace.json
+          ibmcloud schematics workspace new --file workspace.json --json
 
 

@@ -42,7 +42,6 @@ spec:
       args:
         - |
           #!/bin/bash
-          echo "We can add script here..........."
           if [ "$ENABLE_PLAN_APPLY" != "true" ]; then
             echo "Automatic plan and apply have been disabled. Re-enable by setting the enable-automatic-plan-apply environment property to true."
             exit 0
@@ -66,9 +65,6 @@ spec:
           ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
           echo "Activity ID   $ACTIVITY_ID"
 
-          # Add custom script for ..........
-          echo "We can add custom script here .........................2"
-          ./../scripts/test.sh
           # poll until status is no longer INPROGRESS, or if there is an error
           while :
           do
