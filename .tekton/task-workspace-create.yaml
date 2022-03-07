@@ -42,16 +42,16 @@ spec:
           
           echo "Creating workspace....................."
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
-          ERR_NUM=ERR_NUM+$?
-          WORKSPACE=$(ibmcloud schematics workspace new --file workspace1.json --json) 
-          ERR_NUM=ERR_NUM+$?
+          ((ERR_NUM=ERR_NUM+$?))
+          WORKSPACE=$(ibmcloud schematics workspace new --file workspace.json --json) 
+          ((ERR_NUM=ERR_NUM+$?))
           WORKSPACE_ID=$(echo $WORKSPACE | jq ".id" | sed 's/"//g')
           echo "WORKSPACE ID:  $WORKSPACE_ID"
           if [ $ERR_NUM -ne 0 ]; then
             echo "Error in creating workspace........................"
             exit $ERR_NUM
           else
-            echo "Workspace create with id: $WORKSPACE_ID"
+            echo "Workspace created with id: $WORKSPACE_ID"
           fi
           sleep 50
 
@@ -85,13 +85,13 @@ spec:
           done
           ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
           sleep 50
+
           echo "Applying Plan....................."
           # run terraform apply
           echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
           ACTIVITY2=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
           ACTIVITY2_ID=$(echo $ACTIVITY | jq -r ".activityid")
           echo "Activity ID   $ACTIVITY2_ID"
-
           # poll until status is no longer INPROGRESS, or if there is an error
           while :
           do
