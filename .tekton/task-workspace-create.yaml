@@ -23,7 +23,7 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |
-          echo "Creating schematic workspace..................."
+          echo "Login to ibm cloud..................."
 
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
@@ -38,7 +38,16 @@ spec:
           # ibmcloud schematics workspace action --id <workspace-id>
           # https://github.com/rajeev159/terraform-provider-ibm/blob/master/examples/workspace.json
           
+          echo "Creating workspace....................."
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
-          ibmcloud schematics workspace new --file workspace.json --json
+          ibmcloud schematics workspace new --file workspace.json --json > tmp.json
+
+          grep -m 1 -h "id" tmp.json | cut -d ':' -f 2 | sed -e "s/,//g" > workspace-id.txt
+          WORKSPACEID=cat workspace-id.txt
+          echo "work id WORKSPACEID"
+
+          echo "Creating workspace....................."
+          # run terraform plan
+          
 
 
