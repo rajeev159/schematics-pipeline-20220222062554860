@@ -41,10 +41,11 @@ spec:
           
           echo "Creating workspace....................."
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
-          ibmcloud schematics workspace new --file workspace.json --json > tmp.json
+          WORKSPACE=$(ibmcloud schematics workspace new --file workspace.json --json) 
 
-          grep -m 1 -h "id" tmp.json | cut -d ':' -f 2 | sed -e "s/,//g" > workspace-id.txt
-          WORKSPACEID=cat workspace-id.txt
+          #grep -m 1 -h "id" tmp.json | cut -d ':' -f 2 | sed -e "s/,//g" > workspace-id.txt
+          WORKSPACEID=$(echo $WORKSPACE | jq ".id")
+
           echo "work id WORKSPACEID"
 
           echo "Creating workspace....................."
