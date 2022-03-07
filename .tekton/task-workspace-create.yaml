@@ -45,12 +45,67 @@ spec:
           WORKSPACE_ID=$(echo $WORKSPACE | jq ".id" | sed 's/"//g')
           echo "WORKSPACE ID:  $WORKSPACE_ID"
           sleep 50
-          echo "Creating workspace....................."
+          echo "Creating Plan....................."
           # run terraform plan
           echo "ibmcloud terraform plan --id $WORKSPACE_ID"
           ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)
           ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
           echo "Activity ID   $ACTIVITY_ID"
+          # poll until status is no longer INPROGRESS, or if there is an error
+          while :
+          do
+            STATUS=$(ibmcloud terraform workspace action --id $WORKSPACE_ID --act-id $ACTIVITY_ID --json)
+            
+            RET_VAL=$?
+            if [ $RET_VAL -ne 0 ]; then
+              echo $STATUS
+              exit $RET_VAL
+            else
+              STATUS_VALUE=$(echo $STATUS | jq -r ".status")
+              echo "Polling for status: $STATUS_VALUE"
+              if [ "$STATUS_VALUE" = "FAILED" ]; then 
+                ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
+                exit 1
+              elif [ "$STATUS_VALUE" != "INPROGRESS" ] && [ "$STATUS_VALUE" != "CREATED" ]; then  
+                break
+              fi
+            fi
+            # sleep for 5 seconds, while waiting for completion
+            sleep 5
+          done
+          ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
+          echo "Applying Plan....................."
+          # run terraform apply
+          echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
+          ACTIVITY2=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
+          ACTIVITY2_ID=$(echo $ACTIVITY | jq -r ".activityid")
+          echo "Activity ID   $ACTIVITY2_ID"
+
+          # poll until status is no longer INPROGRESS, or if there is an error
+          while :
+          do
+            STATUS=$(ibmcloud terraform workspace action --id $WORKSPACE_ID --act-id $ACTIVITY2_ID --json)
+            
+            RET_VAL=$?
+            if [ $RET_VAL -ne 0 ]; then
+              echo $STATUS
+              exit $RET_VAL
+            else
+              STATUS_VALUE=$(echo $STATUS | jq -r ".status")
+              echo "Polling for status: $STATUS_VALUE"
+              if [ "$STATUS_VALUE" = "FAILED" ]; then
+                ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY2_ID
+                exit 1
+              elif [ "$STATUS_VALUE" != "INPROGRESS" ]; then  
+                break
+              fi
+            fi
+            # sleep for 5 seconds, while waiting for completion
+            sleep 5
+
+          echo 'Pland is ending here............................'
+          done
+          ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY2_ID
           
 
 
