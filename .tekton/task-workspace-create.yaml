@@ -46,7 +46,8 @@ spec:
           # iterate through the Bash array
           items=$(echo "$WORKSPACE_LIST_JSON" | jq -c -r '.[]')
           for item in ${items[@]}; do
-              echo $item
+              echo $item | jq ".name"
+              echo $item | jq ".id"
               # whatever you are trying to do ...
           done
 
