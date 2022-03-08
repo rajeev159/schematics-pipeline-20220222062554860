@@ -28,7 +28,7 @@ spec:
           set -x
           echo "Login to ibm cloud..................."
           ERR_NUM=0
-          echo "Workspace name: $WORKSPACE_NAME"
+          #echo "Workspace name: $WORKSPACE_NAME"
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
 
