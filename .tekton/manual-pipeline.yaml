@@ -14,6 +14,8 @@ spec:
       description: the IBM Cloud API key
     - name: acc-region
       description: Account region
+    - name: workspace-name
+      description: Workspace name
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
