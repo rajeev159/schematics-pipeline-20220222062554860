@@ -31,14 +31,15 @@ spec:
           #echo "Workspace name: $WORKSPACE_NAME"
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
-
+          echo "jq version"
+          jq --version
           # Output in json format
           #ibmcloud schematics version --output json
 
           # To find the ID of your workspace
           # ibmcloud schematics workspace list
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
-
+          
           # read each item in the JSON array to an item in the Bash array
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
           #readarray -t my_array < <(jq -c '.[]' $WORKSPACE_LIST_JSON)
