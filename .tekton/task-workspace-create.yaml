@@ -40,7 +40,8 @@ spec:
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
 
           # read each item in the JSON array to an item in the Bash array
-          readarray -t my_array < <(jq -c '.[]' echo $WORKSPACE_LIST | jq ".workspaces")
+          WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
+          readarray -t my_array < <(jq -c '.[]' $WORKSPACE_LIST_JSON)
 
           # iterate through the Bash array
           for item in "${my_array[@]}"; do
