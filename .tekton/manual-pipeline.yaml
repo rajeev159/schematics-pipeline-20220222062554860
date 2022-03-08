@@ -34,3 +34,5 @@ spec:
           value: $(params.apikey)
         - name: acc-region
           value: $(params.acc-region)
+        - name: workspace-name
+          value: $(params.workspace-name)
