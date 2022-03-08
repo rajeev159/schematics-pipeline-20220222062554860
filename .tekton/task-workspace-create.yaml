@@ -38,6 +38,13 @@ spec:
           # To find the ID of your workspace
           # ibmcloud schematics workspace list
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
+
+          for var in WORKSPACE_LIST
+          do
+            echo "list data: $var"
+          done
+
+
           echo "Workspace list: $WORKSPACE_LIST"
           # Get details of a workspace
           # ibmcloud schematics workspace action --id <workspace-id>
