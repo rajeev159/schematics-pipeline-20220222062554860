@@ -27,7 +27,7 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |
-          #set -x
+          set -x
           echo "Login to ibm cloud..................."
           ERR_NUM=0
           # force login (required by schematics cli)
@@ -40,7 +40,7 @@ spec:
             _jq() {
               echo ${row} | base64 --decode | jq -r ${1}
             }
-            if [ $WORKSPACE_NAME -eq $(_jq '.name') ]; then
+            if [[ $WORKSPACE_NAME -eq $(_jq '.name') ]]; then
               echo "Workspace name already exists: $WORKSPACE_NAME"
               exit 1
             fi
