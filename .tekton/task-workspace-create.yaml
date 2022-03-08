@@ -22,8 +22,6 @@ spec:
       env:
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
-        - name: WORKSPACE_NAME
-          value: $(params.workspace-name)
       command: ["/bin/bash", "-c"]
       args:
         - |
