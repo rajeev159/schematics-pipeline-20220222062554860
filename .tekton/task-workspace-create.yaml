@@ -39,10 +39,17 @@ spec:
           # ibmcloud schematics workspace list
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
 
-          for var in $( echo $WORKSPACE_LIST | jq ".workspaces")
-          do
-            echo "list data: $var"
+          # read each item in the JSON array to an item in the Bash array
+          readarray -t my_array < <(jq -c '.workspaces[]' WORKSPACE_LIST.json)
+
+          # iterate through the Bash array
+          for item in "${my_array[@]}"; do
+            workspace_name=$(jq '.name' <<< "$item")
+            workspace_id=$(jq '.id' <<< "$item")
+            echo "workspace_name: $workspace_name"
+          # do your stuff
           done
+          
           sleep 10
           exit 5
           echo "Workspace list: $WORKSPACE_LIST"
