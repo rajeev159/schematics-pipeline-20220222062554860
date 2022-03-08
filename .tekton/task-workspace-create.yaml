@@ -39,8 +39,8 @@ spec:
 
           # To find the ID of your workspace
           # ibmcloud schematics workspace list
-           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
-
+          WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
+          echo "Workspace list: $WORKSPACE_LIST"
           # Get details of a workspace
           # ibmcloud schematics workspace action --id <workspace-id>
           # https://github.com/rajeev159/terraform-provider-ibm/blob/master/examples/workspace.json
