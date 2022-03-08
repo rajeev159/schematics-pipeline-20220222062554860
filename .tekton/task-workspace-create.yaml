@@ -41,14 +41,13 @@ spec:
 
           # read each item in the JSON array to an item in the Bash array
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-          readarray -t my_array < <(jq -c '.[]' $WORKSPACE_LIST_JSON)
+          #readarray -t my_array < <(jq -c '.[]' $WORKSPACE_LIST_JSON)
 
           # iterate through the Bash array
-          for item in "${my_array[@]}"; do
-            workspace_name=$(jq '.name' <<< "$item")
-            workspace_id=$(jq '.id' <<< "$item")
-            echo "workspace_name: $workspace_name"
-          # do your stuff
+          items=$(echo "$WORKSPACE_LIST_JSON" | jq -c -r '.[]')
+          for item in ${items[@]}; do
+              echo $item
+              # whatever you are trying to do ...
           done
 
           sleep 10
