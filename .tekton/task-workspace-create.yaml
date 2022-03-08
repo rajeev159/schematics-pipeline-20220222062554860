@@ -44,7 +44,7 @@ spec:
             echo "list data: $var"
           done
 
-
+          exit 5
           echo "Workspace list: $WORKSPACE_LIST"
           # Get details of a workspace
           # ibmcloud schematics workspace action --id <workspace-id>
