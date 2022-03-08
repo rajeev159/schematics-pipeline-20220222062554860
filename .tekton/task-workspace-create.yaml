@@ -42,14 +42,12 @@ spec:
           
           # read each item in the JSON array to an item in the Bash array
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-          #readarray -t my_array < <(jq -c '.[]' $WORKSPACE_LIST_JSON)
-
-          # iterate through the Bash array
-          items=$(echo "$WORKSPACE_LIST_JSON" | jq -c -r '.[]')
-          for item in ${items[@]}; do
-              original_name=$(echo $item | jq -r '.name')
-              echo $item
-              # whatever you are trying to do ...
+          
+          for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            echo $(_jq '.name')
           done
 
           sleep 10
