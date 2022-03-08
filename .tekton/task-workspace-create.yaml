@@ -22,40 +22,30 @@ spec:
       env:
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
+        - name: WORKSPACE_NAME
+          value: $(params.workspace-name)
       command: ["/bin/bash", "-c"]
       args:
         - |
-          set -x
+          #set -x
           echo "Login to ibm cloud..................."
           ERR_NUM=0
-          #echo "Workspace name: $WORKSPACE_NAME"
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
-          echo "jq version"
-          # jq --version
-          # Output in json format
-          #ibmcloud schematics version --output json
-
           # To find the ID of your workspace
-          # ibmcloud schematics workspace list
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
-          
-          # read each item in the JSON array to an item in the Bash array
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
           
           for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
             _jq() {
               echo ${row} | base64 --decode | jq -r ${1}
             }
-            echo $(_jq '.name')
+            if [ $WORKSPACE_NAME -eq $(_jq '.name') ]; then
+              echo "Workspace name already exists: $WORKSPACE_NAME"
+              exit 1
+            fi
           done
-
           sleep 10
-          exit 5
-          echo "Workspace list: $WORKSPACE_LIST"
-          # Get details of a workspace
-          # ibmcloud schematics workspace action --id <workspace-id>
-          # https://github.com/rajeev159/terraform-provider-ibm/blob/master/examples/workspace.json
           
           echo "Creating workspace....................."
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
