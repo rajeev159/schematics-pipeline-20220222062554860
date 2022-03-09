@@ -52,6 +52,8 @@ spec:
           value: $(params.acc-region)
         - name: workspace-name
           value: $(params.workspace-name)
+        - name: enable-automatic-plan-apply
+          value: $(params.enable-automatic-plan-apply)
     - name: apply
       runAfter: [plan]
       taskRef:
@@ -60,12 +62,14 @@ spec:
         - name: artifacts
           workspace: artifacts
       params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
         - name: ibmcloud-api
           value: $(params.ibmcloud-api)
         - name: apikey
           value: $(params.apikey)
+        - name: acc-region
+          value: $(params.acc-region)
+        - name: workspace-name
+          value: $(params.workspace-name)
         - name: enable-automatic-plan-apply
           value: $(params.enable-automatic-plan-apply)
     - name: sql-instance
