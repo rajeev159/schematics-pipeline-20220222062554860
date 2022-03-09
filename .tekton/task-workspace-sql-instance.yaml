@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: sql-instance
+spec:
+  params:
+    - name: ibmcloud-api
+      description: the ibmcloud api
+      default: https://cloud.ibm.com
+    - name: apikey
+      description: the ibmcloud api key
+    - name: acc-region
+      description: Account region
+    - name: workspace-name
+      description: Workspace name
+  workspaces:
+    - name: artifacts
+      mountPath: /artifacts
+  steps:
+    - name: create-sql-instance
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.2
+      env:
+        - name: IBM_CLOUD_API
+          value: $(params.ibmcloud-api)
+        - name: WORKSPACE_NAME
+          value: $(params.workspace-name)
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          #set -x
+          echo "Create SQL instance..................."
+          

@@ -21,9 +21,25 @@ spec:
   workspaces:
     - name: artifacts
   tasks:
-    - name: create
+    - name: create-workspace
       taskRef:
         name: create-task
+      workspaces:
+        - name: artifacts
+          workspace: artifacts
+      params:
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: acc-region
+          value: $(params.acc-region)
+        - name: workspace-name
+          value: $(params.workspace-name)
+    - name: sql-instance
+      runAfter: [create-workspace]
+      taskRef:
+        name: sql-instance
       workspaces:
         - name: artifacts
           workspace: artifacts
