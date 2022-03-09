@@ -17,6 +17,8 @@ spec:
       description: account region
     - name: workspace-name
       description: workspace name
+    - name: template-file
+      description: template file url
     - name: commit-id
       description: commit id
     - name: commit-timestamp
@@ -104,5 +106,7 @@ spec:
             value: $(params.acc-region)
           - name: workspace-name
             value: $(params.workspace-name)
+          - name: template-file
+            value: $(params.template-file)
           - name: enable-automatic-plan-apply
             value: $(params.enable-automatic-plan-apply)
