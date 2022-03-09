@@ -62,7 +62,7 @@ spec:
           else
             echo "Workspace created with id: $WORKSPACE_ID"
           fi
-          sleep 30
+          sleep 20
           
 
 
