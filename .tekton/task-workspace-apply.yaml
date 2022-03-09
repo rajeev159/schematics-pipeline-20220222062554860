@@ -11,8 +11,6 @@ spec:
       description: the ibmcloud api key
     - name: acc-region
       description: Account region
-    - name: workspace-name
-      description: Workspace name
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
     - name: template-file
@@ -24,8 +22,6 @@ spec:
     - name: terraform-apply
       image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.2
       env:
-        - name: WORKSPACE_NAME
-          value: $(params.workspace-name)
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
         - name: ENABLE_PLAN_APPLY
@@ -45,7 +41,7 @@ spec:
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
 
-          curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
+          curl -LJO $(params.template-file)
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
 
           for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do

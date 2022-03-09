@@ -14,8 +14,6 @@ spec:
       description: the IBM Cloud API key
     - name: acc-region
       description: Account region
-    - name: workspace-name
-      description: Workspace name
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
     - name: template-file
@@ -36,8 +34,6 @@ spec:
           value: $(params.apikey)
         - name: acc-region
           value: $(params.acc-region)
-        - name: workspace-name
-          value: $(params.workspace-name)
         - name: template-file
           value: $(params.template-file) 
     - name: plan
@@ -54,8 +50,6 @@ spec:
           value: $(params.apikey)
         - name: acc-region
           value: $(params.acc-region)
-        - name: workspace-name
-          value: $(params.workspace-name)
         - name: enable-automatic-plan-apply
           value: $(params.enable-automatic-plan-apply)
         - name: template-file
@@ -74,8 +68,6 @@ spec:
           value: $(params.apikey)
         - name: acc-region
           value: $(params.acc-region)
-        - name: workspace-name
-          value: $(params.workspace-name)
         - name: enable-automatic-plan-apply
           value: $(params.enable-automatic-plan-apply)
         - name: template-file
@@ -94,5 +86,3 @@ spec:
           value: $(params.apikey)
         - name: acc-region
           value: $(params.acc-region)
-        - name: workspace-name
-          value: $(params.workspace-name)

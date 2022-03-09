@@ -15,8 +15,6 @@ spec:
       description: the ibmcloud api key
     - name: acc-region
       description: account region
-    - name: workspace-name
-      description: workspace name
     - name: template-file
       description: template file url
     - name: commit-id
@@ -104,8 +102,6 @@ spec:
             value: $(params.apikey)
           - name: acc-region
             value: $(params.acc-region)
-          - name: workspace-name
-            value: $(params.workspace-name)
           - name: template-file
             value: $(params.template-file)
           - name: enable-automatic-plan-apply

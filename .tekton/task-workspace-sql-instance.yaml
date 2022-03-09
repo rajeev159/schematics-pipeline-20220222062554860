@@ -11,8 +11,6 @@ spec:
       description: the ibmcloud api key
     - name: acc-region
       description: Account region
-    - name: workspace-name
-      description: Workspace name
   workspaces:
     - name: artifacts
       mountPath: /artifacts
@@ -22,8 +20,6 @@ spec:
       env:
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
-        - name: WORKSPACE_NAME
-          value: $(params.workspace-name)
       command: ["/bin/bash", "-c"]
       args:
         - |
