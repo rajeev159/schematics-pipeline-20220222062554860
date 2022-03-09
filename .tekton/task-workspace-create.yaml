@@ -36,6 +36,9 @@ spec:
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
           
+          curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
+          WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
+
           for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
             _jq() {
               echo ${row} | base64 --decode | jq -r ${1}
@@ -48,7 +51,6 @@ spec:
           sleep 10
           
           echo "Creating workspace....................."
-          curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
           ((ERR_NUM=ERR_NUM+$?))
           WORKSPACE=$(ibmcloud schematics workspace new --file workspace.json --json) 
           ((ERR_NUM=ERR_NUM+$?))
