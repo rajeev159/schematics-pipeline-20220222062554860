@@ -32,7 +32,7 @@ spec:
       args:
         - |
           #!/bin/bash
-
+          set -x
           if [ "$ENABLE_PLAN_APPLY" != "true" ]; then
             echo "Automatic plan and apply have been disabled. Re-enable by setting the enable-automatic-plan-apply environment property to true."
             exit 0
@@ -43,10 +43,10 @@ spec:
           # To find the ID of your workspace
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-          
+
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
-
+          echo "Creating plan for workspace: $WORKSPACE_NAME"
           for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
             _jq() {
               echo ${row} | base64 --decode | jq -r ${1}
@@ -91,4 +91,5 @@ spec:
             # sleep for 5 seconds, while waiting for completion
             sleep 5
           done
+          sleep 30
           ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID

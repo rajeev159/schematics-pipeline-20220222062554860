@@ -91,6 +91,7 @@ spec:
             # sleep for 5 seconds, while waiting for completion
             sleep 5
 
-          echo 'Pland is ending here............................'
+          echo 'Plan is ending here............................'
           done
+          sleep 30
           ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID

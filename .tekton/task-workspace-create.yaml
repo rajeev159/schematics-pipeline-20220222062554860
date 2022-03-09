@@ -35,7 +35,7 @@ spec:
           # To find the ID of your workspace
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-          
+
           curl -LJO https://raw.githubusercontent.com/rajeev159/terraform-provider-ibm/master/examples/workspace.json
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
 
@@ -62,7 +62,7 @@ spec:
           else
             echo "Workspace created with id: $WORKSPACE_ID"
           fi
-          sleep 50
+          sleep 30
           
 
 
