@@ -13,6 +13,8 @@ spec:
       description: Account region
     - name: workspace-name
       description: Workspace name
+    - name: template-file
+      description: template file url
   workspaces:
     - name: artifacts
       mountPath: /artifacts
