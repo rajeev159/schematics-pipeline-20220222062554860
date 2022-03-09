@@ -4,19 +4,15 @@ metadata:
   name: apply-task
 spec:
   params:
-    - name: ibmcloud-apikey-secret-key
-      description: field in the secret that contains the api key used to login to ibmcloud
-      default: apikey
-    - name: continuous-delivery-context-secret
-      description: Reference name for the secret resource
-      default: "secure-properties"
-    - name: WORKSPACE_ID
-      description: the workspace id
     - name: ibmcloud-api
       description: the ibmcloud api
       default: https://cloud.ibm.com
     - name: apikey
       description: the ibmcloud api key
+    - name: acc-region
+      description: Account region
+    - name: workspace-name
+      description: Workspace name
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
