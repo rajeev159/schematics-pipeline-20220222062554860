@@ -21,7 +21,7 @@ spec:
   workspaces:
     - name: artifacts
   tasks:
-    - name: create-workspace
+    - name: workspace
       taskRef:
         name: create-task
       workspaces:
@@ -36,6 +36,38 @@ spec:
           value: $(params.acc-region)
         - name: workspace-name
           value: $(params.workspace-name)
+    - name: plan
+      runAfter: [workspace]
+      taskRef:
+        name: plan-task
+      workspaces:
+        - name: artifacts
+          workspace: artifacts
+      params:
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: acc-region
+          value: $(params.acc-region)
+        - name: workspace-name
+          value: $(params.workspace-name)
+    - name: apply
+      runAfter: [plan]
+      taskRef:
+        name: apply-task
+      workspaces:
+        - name: artifacts
+          workspace: artifacts
+      params:
+        - name: WORKSPACE_ID
+          value: $(params.WORKSPACE_ID)
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: enable-automatic-plan-apply
+          value: $(params.enable-automatic-plan-apply)
     - name: sql-instance
       runAfter: [create-workspace]
       taskRef:

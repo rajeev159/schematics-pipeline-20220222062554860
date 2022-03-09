@@ -4,19 +4,15 @@ metadata:
   name: plan-task
 spec:
   params:
-    - name: ibmcloud-apikey-secret-key
-      description: field in the secret that contains the api key used to login to ibmcloud
-      default: apikey
-    - name: continuous-delivery-context-secret
-      description: Reference name for the secret resource
-      default: "secure-properties"
-    - name: WORKSPACE_ID
-      description: the workspace id
     - name: ibmcloud-api
       description: the ibmcloud api
       default: https://cloud.ibm.com
     - name: apikey
       description: the ibmcloud api key
+    - name: acc-region
+      description: Account region
+    - name: workspace-name
+      description: Workspace name
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
@@ -26,16 +22,10 @@ spec:
     - name: terraform-plan
       image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.2
       env:
-        - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: $(params.continuous-delivery-context-secret)
-              key: $(params.ibmcloud-apikey-secret-key)
-              optional: true
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
+        - name: WORKSPACE_NAME
+          value: $(params.workspace-name)
         - name: ENABLE_PLAN_APPLY
           value: $(params.enable-automatic-plan-apply)
       command: ["/bin/bash", "-c"]
@@ -48,8 +38,22 @@ spec:
             exit 0
           fi
 
-          echo "Workspace $WORKSPACE_ID"
+          # force login (required by schematics cli)
+          ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
+          
+          # To find the ID of your workspace
+          WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
+          WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
+          for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            if [[ $WORKSPACE_NAME -eq $(_jq '.name') ]]; then
+              WORKSPACE_ID=$(_jq '.id')
+            fi
+          done
 
+          echo "Workspace $WORKSPACE_ID"
           REGION="--no-region"
           # only parse the region if its the *NEW* workspace id format
           if [[ "$WORKSPACE_ID" == *".workspace"* ]]; then
@@ -57,8 +61,6 @@ spec:
           fi
           echo "REGION: $REGION"
 
-          # force login (required by schematics cli)
-          ibmcloud login --apikey $API_KEY -a "$IBM_CLOUD_API" $REGION
           # run terraform plan
           echo "ibmcloud terraform plan --id $WORKSPACE_ID"
           ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)

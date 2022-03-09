@@ -26,14 +26,8 @@ spec:
     - name: terraform-apply
       image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.2
       env:
-        - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: $(params.continuous-delivery-context-secret)
-              key: $(params.ibmcloud-apikey-secret-key)
-              optional: true
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
+        - name: WORKSPACE_NAME
+          value: $(params.workspace-name)
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
         - name: ENABLE_PLAN_APPLY
@@ -47,17 +41,28 @@ spec:
             exit 0
           fi
 
-          echo "Workspace $WORKSPACE_ID"
+          # force login (required by schematics cli)
+          ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
+          
+          # To find the ID of your workspace
+          WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
+          WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
+          for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            if [[ $WORKSPACE_NAME -eq $(_jq '.name') ]]; then
+              WORKSPACE_ID=$(_jq '.id')
+            fi
+          done
 
+          echo "Workspace $WORKSPACE_ID"
           REGION="--no-region"
           # only parse the region if its the *NEW* workspace id format
           if [[ "$WORKSPACE_ID" == *".workspace"* ]]; then
               REGION=" -r $(echo $WORKSPACE_ID | cut -f1 -d.)"
           fi
           echo "REGION: $REGION"
-
-          # force login (required by schematics cli)
-          ibmcloud login --apikey $API_KEY -a "$IBM_CLOUD_API" $REGION
 
           # run terraform apply
           echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
