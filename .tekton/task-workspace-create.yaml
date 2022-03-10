@@ -41,7 +41,7 @@ spec:
           echo "https://$(params.template-file-github-token)@$TEMPLATE_FILE"
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-          echo "https://$TEMPLATE_FILE_GITHUB_TOKEN@$TEMPLATE_FILE"
+          echo "https://${TEMPLATE_FILE_GITHUB_TOKEN}@$TEMPLATE_FILE"
           curl -LJO https://$(params.template-file-github-token)@$TEMPLATE_FILE
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
 
