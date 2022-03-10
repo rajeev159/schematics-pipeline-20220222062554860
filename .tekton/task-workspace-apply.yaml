@@ -30,6 +30,8 @@ spec:
           value: $(params.enable-automatic-plan-apply)
         - name: TEMPLATE_FILE_GITHUB_TOKEN
           value: $(params.template-file-github-token)
+        - name: TEMPLATE_FILE
+          value: $(params.template-file)
       command: ["/bin/bash", "-c"]
       args:
         - |

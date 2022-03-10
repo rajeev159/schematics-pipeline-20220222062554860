@@ -31,7 +31,7 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |
-          #set -x
+          set -x
           echo "Login to ibm cloud..................."
           ERR_NUM=0
           # force login (required by schematics cli)
@@ -39,7 +39,7 @@ spec:
           # To find the ID of your workspace
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-
+          echo "https://$TEMPLATE_FILE_GITHUB_TOKEN@$TEMPLATE_FILE"
           curl -LJO https://$TEMPLATE_FILE_GITHUB_TOKEN@$TEMPLATE_FILE
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
 
