@@ -41,9 +41,10 @@ spec:
           echo "Create SQL instance..................."
           if ibmcloud resource service-instance $SQL_QUERY_SERVICE_NAME > /dev/null 2>&1; then
             echo "LogDNA service $SQL_QUERY_SERVICE_NAME already exists"
+            exit 1
           else
             echo "Creating SQL Query Service..."
-            ibmcloud resource service-instance-create $SQL_QUERY_SERVICE_NAME \
-              sql-query "$SQL_QUERY_SERVICE_PLAN" $SQL_QUERY_REGION || exit 1
+            ibmcloud target -g Default
+            ibmcloud resource service-instance-create $SQL_QUERY_SERVICE_NAME sql-query "$SQL_QUERY_SERVICE_PLAN" $SQL_QUERY_REGION
           fi
           
