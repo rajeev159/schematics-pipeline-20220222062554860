@@ -45,7 +45,7 @@ spec:
         - name: template-file
           value: $(params.template-file) 
         - name: template-file-github-token
-          value: (params.template-file-github-token)
+          value: $(params.template-file-github-token)
     - name: plan
       runAfter: [workspace]
       taskRef:
@@ -65,7 +65,7 @@ spec:
         - name: template-file
           value: $(params.template-file) 
         - name: template-file-github-token
-          value: (params.template-file-github-token)
+          value: $(params.template-file-github-token)
     - name: apply
       runAfter: [plan]
       taskRef:
@@ -85,7 +85,7 @@ spec:
         - name: template-file
           value: $(params.template-file) 
         - name: template-file-github-token
-          value: (params.template-file-github-token)
+          value: $(params.template-file-github-token)
     - name: sql-instance
       runAfter: [apply]
       taskRef:

@@ -37,13 +37,9 @@ spec:
           # force login (required by schematics cli)
           ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
           # To find the ID of your workspace
-          echo "file path1"
-          echo "https://$TEMPLATE_FILE@$TEMPLATE_FILE"
-          echo "https://$TEMPLATE_FILE_GITHUB_TOKEN@$TEMPLATE_FILE"
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
-          echo "https://${TEMPLATE_FILE_GITHUB_TOKEN}@$TEMPLATE_FILE"
-          curl -LJO https://$(params.template-file-github-token)@$TEMPLATE_FILE
+          curl -LJO https://$TEMPLATE_FILE_GITHUB_TOKEN@$TEMPLATE_FILE
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
 
           for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
