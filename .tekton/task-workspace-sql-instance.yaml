@@ -13,6 +13,10 @@ spec:
       description: Account region
     - name: sql-query-service-name
       description: sql query service name
+    - name: sql-query-service-plan
+      description: sql query service plan
+    - name: sql-query-region
+      description: sql query region
   workspaces:
     - name: artifacts
       mountPath: /artifacts
@@ -24,6 +28,10 @@ spec:
           value: $(params.ibmcloud-api)
         - name: SQL_QUERY_SERVICE_NAME
           value: $(params.sql-query-service-name)
+        - name: SQL_QUERY_SERVICE_PLAN
+          value: $(params.sql-query-service-plan)
+        - name: SQL_QUERY_REGION
+          value: $(params.sql-query-region)
       command: ["/bin/bash", "-c"]
       args:
         - |
