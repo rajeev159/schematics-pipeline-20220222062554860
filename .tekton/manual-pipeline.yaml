@@ -24,6 +24,8 @@ spec:
       description: sql query service plan
     - name: sql-query-region
       description: sql query region
+    - name: template-file-github-token
+      description: github token
   workspaces:
     - name: artifacts
   tasks:
@@ -42,6 +44,8 @@ spec:
           value: $(params.acc-region)
         - name: template-file
           value: $(params.template-file) 
+        - name: template-file-github-token
+          value: (params.template-file-github-token)
     - name: plan
       runAfter: [workspace]
       taskRef:
@@ -60,6 +64,8 @@ spec:
           value: $(params.enable-automatic-plan-apply)
         - name: template-file
           value: $(params.template-file) 
+        - name: template-file-github-token
+          value: (params.template-file-github-token)
     - name: apply
       runAfter: [plan]
       taskRef:
@@ -78,6 +84,8 @@ spec:
           value: $(params.enable-automatic-plan-apply)
         - name: template-file
           value: $(params.template-file) 
+        - name: template-file-github-token
+          value: (params.template-file-github-token)
     - name: sql-instance
       runAfter: [apply]
       taskRef:

@@ -26,6 +26,8 @@ spec:
           value: $(params.ibmcloud-api)
         - name: ENABLE_PLAN_APPLY
           value: $(params.enable-automatic-plan-apply)
+        - name: TEMPLATE_FILE_GITHUB_TOKEN
+          value: $(params.template-file-github-token)
       command: ["/bin/bash", "-c"]
       args:
         - |

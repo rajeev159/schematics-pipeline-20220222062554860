@@ -46,6 +46,8 @@ spec:
       description: sql query service plan
     - name: sql-query-region
       description: sql query region
+    - name: template-file-github-token
+      description: github token
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
       default: "true"
@@ -118,3 +120,5 @@ spec:
             value: $(params.sql-query-service-plan)
           - name: sql-query-region
             value: $(params.sql-query-region)
+          - name: template-file-github-token
+            value: $(params.template-file-github-token)

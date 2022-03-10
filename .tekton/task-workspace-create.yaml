@@ -13,6 +13,8 @@ spec:
       description: Account region
     - name: template-file
       description: template file url
+    - name: template-file-github-token
+      description: github token
   workspaces:
     - name: artifacts
       mountPath: /artifacts
@@ -22,6 +24,10 @@ spec:
       env:
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
+        - name: TEMPLATE_FILE_GITHUB_TOKEN
+          value: $(params.template-file-github-token)
+        - name: TEMPLATE_FILE
+          value: $(params.template-file)
       command: ["/bin/bash", "-c"]
       args:
         - |
@@ -34,7 +40,7 @@ spec:
           WORKSPACE_LIST=$(ibmcloud schematics workspace list --json) 
           WORKSPACE_LIST_JSON=$(echo $WORKSPACE_LIST | jq ".workspaces")
 
-          curl -LJO $(params.template-file)
+          curl -LJO https://$TEMPLATE_FILE_GITHUB_TOKEN@$TEMPLATE_FILE
           WORKSPACE_NAME=$(cat workspace.json | jq ".name" | sed 's/"//g')
 
           for row in $(echo "${WORKSPACE_LIST_JSON}" | jq -r '.[] | @base64'); do
