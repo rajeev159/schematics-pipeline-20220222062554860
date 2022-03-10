@@ -11,6 +11,8 @@ spec:
       description: the ibmcloud api key
     - name: acc-region
       description: Account region
+    - name: sql-query-service-name
+      description: sql query service name
   workspaces:
     - name: artifacts
       mountPath: /artifacts
@@ -20,9 +22,20 @@ spec:
       env:
         - name: IBM_CLOUD_API
           value: $(params.ibmcloud-api)
+        - name: SQL_QUERY_SERVICE_NAME
+          value: $(params.sql-query-service-name)
       command: ["/bin/bash", "-c"]
       args:
         - |
           #set -x
+          # force login (required by schematics cli)
+          ibmcloud login --apikey $(params.apikey) -a "$(params.ibmcloud-api)" -r $(params.acc-region)
           echo "Create SQL instance..................."
+          if ibmcloud resource service-instance $SQL_QUERY_SERVICE_NAME > /dev/null 2>&1; then
+            echo "LogDNA service $SQL_QUERY_SERVICE_NAME already exists"
+          else
+            echo "Creating SQL Query Service..."
+            ibmcloud resource service-instance-create $SQL_QUERY_SERVICE_NAME \
+              sql-query "$SQL_QUERY_SERVICE_PLAN" $SQL_QUERY_REGION || exit 1
+          fi
           

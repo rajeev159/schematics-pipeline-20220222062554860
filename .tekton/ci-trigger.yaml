@@ -40,6 +40,8 @@ spec:
       default: ""
     - name: WORKSPACE_ID
       description: The workspace id
+    - name: sql-query-service-name
+      description: sql query service name
     - name: enable-automatic-plan-apply
       description: if true, a plan and apply will be automatically executed upon changes to the template code
       default: "true"
@@ -106,3 +108,5 @@ spec:
             value: $(params.template-file)
           - name: enable-automatic-plan-apply
             value: $(params.enable-automatic-plan-apply)
+          - name: sql-query-service-name
+            value: $(params.sql-query-service-name)

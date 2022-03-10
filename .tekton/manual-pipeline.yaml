@@ -18,6 +18,8 @@ spec:
       description: if true, a plan and apply will be automatically executed upon changes to the template code
     - name: template-file
       description: template file url
+    - name: sql-query-service-name
+      description: sql query service name
   workspaces:
     - name: artifacts
   tasks:
@@ -86,3 +88,5 @@ spec:
           value: $(params.apikey)
         - name: acc-region
           value: $(params.acc-region)
+        - name: sql-query-service-name
+          value: $(params.sql-query-service-name)
